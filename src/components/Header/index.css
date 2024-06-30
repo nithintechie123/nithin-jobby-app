@@ -43,6 +43,7 @@
     font-family: 'Roboto';
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none;
   }
   .logout-button {
     display: block;

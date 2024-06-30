@@ -22,12 +22,12 @@ class Header extends Component {
           className="navbar-website-logo"
         />
         <ul className="nav-links">
-          <Link to="/">
-            <li className="link-item">Home</li>
+          <Link to="/" className="link-item">
+            <li>Home</li>
           </Link>
 
-          <Link to="/jobs">
-            <li className="link-item">Jobs</li>
+          <Link to="/jobs" className="link-item">
+            <li>Jobs</li>
           </Link>
         </ul>
         <button
