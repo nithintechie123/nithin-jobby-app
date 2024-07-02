@@ -2,7 +2,6 @@ import {Switch, Route} from 'react-router-dom'
 
 import './App.css'
 
-import Header from './components/Header'
 import Login from './components/Login'
 import Home from './components/Home'
 import Jobs from './components/Jobs'
@@ -12,7 +11,6 @@ import Jobs from './components/Jobs'
 // Replace your code here
 const App = () => (
   <>
-    <Header />
     <Switch>
       <Route exact path="/login" component={Login} />
       <Route exact path="/" component={Home} />

@@ -1,6 +1,8 @@
 import {Component} from 'react'
-
 import Cookies from 'js-cookie'
+
+import Header from '../Header'
+import JobItemDetails from '../JobItemDetails'
 
 import './index.css'
 
@@ -43,7 +45,7 @@ const salaryRangesList = [
 ]
 
 class Jobs extends Component {
-  state = {profileData: {}}
+  state = {profileData: []}
 
   componentDidMount() {
     this.getProfileData()
@@ -72,53 +74,62 @@ class Jobs extends Component {
 
   render() {
     const {profileData} = this.state
+
     const {name, profileImageUrl, shortBio} = profileData
     return (
-      <div className="jobs-container">
-        <div className="profile-and-filters-container">
-          <div className="profile-container">
-            <img src={profileImageUrl} alt={name} className="profile-image" />
-            <h1 className="profile-name">{name}</h1>
-            <p className="profile-short-bio">{shortBio}</p>
+      <>
+        <Header />
+        <div className="jobs-container">
+          <div className="profile-and-filters-container">
+            <div className="profile-container">
+              <img
+                src={profileImageUrl}
+                alt="profile"
+                className="profile-image"
+              />
+              <h1 className="profile-name">{name}</h1>
+              <p className="profile-short-bio">{shortBio}</p>
+            </div>
+            <hr className="horizontal-line" />
+            <ul className="filters-container">
+              <h1 className="filter-heading">Type of Employment</h1>
+              {employmentTypesList.map(eachEmployeeType => (
+                <li
+                  key={eachEmployeeType.employmentTypeId}
+                  className="each-filter-item"
+                >
+                  <input type="checkbox" id={eachEmployeeType.label} />
+                  <label
+                    htmlFor={eachEmployeeType.label}
+                    className="each-filter-label"
+                  >
+                    {eachEmployeeType.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <hr className="horizontal-line" />
+            <ul className="filters-container">
+              <h1 className="filter-heading">Salary Range</h1>
+              {salaryRangesList.map(eachSalaryRange => (
+                <li
+                  key={eachSalaryRange.salaryRangeId}
+                  className="each-filter-item"
+                >
+                  <input type="checkbox" id={eachSalaryRange.label} />
+                  <label
+                    htmlFor={eachSalaryRange.label}
+                    className="each-filter-label"
+                  >
+                    {eachSalaryRange.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
           </div>
-          <hr className="horizontal-line" />
-          <ul className="filters-container">
-            <h1 className="filter-heading">Type of Employment</h1>
-            {employmentTypesList.map(eachEmployeeType => (
-              <li
-                key={eachEmployeeType.employmentTypeId}
-                className="each-filter-item"
-              >
-                <input type="checkbox" id={eachEmployeeType.label} />
-                <label
-                  htmlFor={eachEmployeeType.label}
-                  className="each-filter-label"
-                >
-                  {eachEmployeeType.label}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <hr className="horizontal-line" />
-          <ul className="filters-container">
-            <h1 className="filter-heading">Salary Range</h1>
-            {salaryRangesList.map(eachSalaryRange => (
-              <li
-                key={eachSalaryRange.salaryRangeId}
-                className="each-filter-item"
-              >
-                <input type="checkbox" id={eachSalaryRange.label} />
-                <label
-                  htmlFor={eachSalaryRange.label}
-                  className="each-filter-label"
-                >
-                  {eachSalaryRange.label}
-                </label>
-              </li>
-            ))}
-          </ul>
+          <JobItemDetails />
         </div>
-      </div>
+      </>
     )
   }
 }

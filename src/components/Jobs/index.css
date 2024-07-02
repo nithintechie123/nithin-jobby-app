@@ -2,10 +2,8 @@
   background-color: #000000;
   height: 100vh;
   background-size: cover;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 30px;
+  overflow: scroll;
 }
 .profile-and-filters-container {
   max-width: 300px;
