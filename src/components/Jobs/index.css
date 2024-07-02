@@ -3,10 +3,18 @@
   height: 100vh;
   background-size: cover;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .profile-and-filters-container {
-  width: 300px;
+  max-width: 300px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .profile-container {
   background-image: url('https://assets.ccbp.in/frontend/react-js/profile-bg.png');
   background-position: center;
@@ -16,6 +24,8 @@
 }
 
 .profile-image {
+  height: 50px;
+  width: 50px;
 }
 
 .profile-name {
@@ -32,5 +42,42 @@
   font-size: 15px;
 }
 
+.horizontal-line {
+  color: #cbd5e1;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.filters-container {
+  color: #ffffff;
+  list-style-type: none;
+  align-self: flex-start;
+  padding: 0px;
+}
+.filter-heading {
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.each-filter-item {
+  display: flex;
+  align-items: center;
+  line-height: 2;
+}
+.each-filter-label {
+  margin-left: 10px;
+  font-family: 'Roboto';
+  font-size: 13px;
+  font-weight: 400;
+}
+
 @media screen and (min-width: 768px) {
+  .jobs-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 30px;
+  }
 }

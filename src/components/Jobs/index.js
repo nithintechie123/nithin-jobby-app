@@ -4,6 +4,44 @@ import Cookies from 'js-cookie'
 
 import './index.css'
 
+const employmentTypesList = [
+  {
+    label: 'Full Time',
+    employmentTypeId: 'FULLTIME',
+  },
+  {
+    label: 'Part Time',
+    employmentTypeId: 'PARTTIME',
+  },
+  {
+    label: 'Freelance',
+    employmentTypeId: 'FREELANCE',
+  },
+  {
+    label: 'Internship',
+    employmentTypeId: 'INTERNSHIP',
+  },
+]
+
+const salaryRangesList = [
+  {
+    salaryRangeId: '1000000',
+    label: '10 LPA and above',
+  },
+  {
+    salaryRangeId: '2000000',
+    label: '20 LPA and above',
+  },
+  {
+    salaryRangeId: '3000000',
+    label: '30 LPA and above',
+  },
+  {
+    salaryRangeId: '4000000',
+    label: '40 LPA and above',
+  },
+]
+
 class Jobs extends Component {
   state = {profileData: {}}
 
@@ -43,6 +81,42 @@ class Jobs extends Component {
             <h1 className="profile-name">{name}</h1>
             <p className="profile-short-bio">{shortBio}</p>
           </div>
+          <hr className="horizontal-line" />
+          <ul className="filters-container">
+            <h1 className="filter-heading">Type of Employment</h1>
+            {employmentTypesList.map(eachEmployeeType => (
+              <li
+                key={eachEmployeeType.employmentTypeId}
+                className="each-filter-item"
+              >
+                <input type="checkbox" id={eachEmployeeType.label} />
+                <label
+                  htmlFor={eachEmployeeType.label}
+                  className="each-filter-label"
+                >
+                  {eachEmployeeType.label}
+                </label>
+              </li>
+            ))}
+          </ul>
+          <hr className="horizontal-line" />
+          <ul className="filters-container">
+            <h1 className="filter-heading">Salary Range</h1>
+            {salaryRangesList.map(eachSalaryRange => (
+              <li
+                key={eachSalaryRange.salaryRangeId}
+                className="each-filter-item"
+              >
+                <input type="checkbox" id={eachSalaryRange.label} />
+                <label
+                  htmlFor={eachSalaryRange.label}
+                  className="each-filter-label"
+                >
+                  {eachSalaryRange.label}
+                </label>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     )
