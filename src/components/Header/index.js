@@ -12,12 +12,19 @@ const Header = props => {
     Cookies.remove('jwt_token')
     history.replace('/login')
   }
+
+  const onClickWebsiteLogo = () => {
+    const {history} = props
+    history.replace('/')
+  }
+
   return (
     <nav className="nav-container">
       <img
         src=" https://assets.ccbp.in/frontend/react-js/logo-img.png"
         alt="website logo"
         className="navbar-website-logo"
+        onClick={onClickWebsiteLogo}
       />
       <ul className="nav-links">
         <Link to="/" className="link-item">
@@ -36,9 +43,13 @@ const Header = props => {
         Logout
       </button>
       <ul className="link-icons-container">
-        <FaHome className="link-icon" />
-        <FaBriefcase className="link-icon" />
-        <FaSignOutAlt className="link-icon" />
+        <Link to="/">
+          <FaHome className="link-icon" />
+        </Link>
+        <Link to="/jobs">
+          <FaBriefcase className="link-icon" />
+        </Link>
+        <FaSignOutAlt className="link-icon" onClick={onClickLogoutButton} />
       </ul>
     </nav>
   )

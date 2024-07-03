@@ -1,0 +1,51 @@
+.job-item-container {
+  background-color: #272727;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.company-logo {
+  width: 40px;
+}
+.logo-title-rating-container {
+  display: flex;
+  align-items: center;
+}
+.title-rating-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 10px;
+}
+
+.company-name {
+  font-family: 'Roboto';
+  color: #ffffff;
+  font-size: 17px;
+  margin: 5px;
+  font-weight: 500;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-icon {
+  color: #fbbf24;
+}
+
+.rating-number {
+  color: #ffffff;
+  margin: 0px;
+  margin-left: 5px;
+  font-family: 'Roboto';
+  font-weight: 400;
+}
+
+.horizontal-line {
+  color: #cbd5e1;
+  width: 100%;
+  margin-top: 20px;
+}
