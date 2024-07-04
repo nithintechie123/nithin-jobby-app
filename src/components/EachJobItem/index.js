@@ -9,10 +9,11 @@ const EachJobItem = props => {
   const {
     companyLogoUrl,
     title,
-    salaryPerAnnum,
+    packagePerAnnum,
     location,
     rating,
     jobDescription,
+    employmentType,
   } = eachJobDetails
   return (
     <li className="job-item-container">
@@ -26,7 +27,22 @@ const EachJobItem = props => {
           </div>
         </div>
       </div>
-      <hr className="horizontal-line" />
+      <div className="location-emp-type-salary-container">
+        <div className="location-emp-type-container">
+          <div className="icon-label-container">
+            <MdLocationOn color="#ffffff" />
+            <p className="location-emp-type-text">{location}</p>
+          </div>
+          <div className="icon-label-container">
+            <BsFillBriefcaseFill color="#ffffff" />
+            <p className="location-emp-type-text">{employmentType}</p>
+          </div>
+        </div>
+        <p className="salary-text">{packagePerAnnum}</p>
+      </div>
+      <hr className="hr-line" />
+      <h1 className="description-heading">Description</h1>
+      <p className="description">{jobDescription}</p>
     </li>
   )
 }
