@@ -1,6 +1,8 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 
+import Loader from 'react-loader-spinner'
+
 import Header from '../Header'
 import JobItemDetails from '../JobItemDetails'
 
@@ -44,14 +46,22 @@ const salaryRangesList = [
   },
 ]
 
+const apiStatusConstants = {
+  INITIAL: 'initial',
+  SUCCESS: 'success',
+  FAILURE: 'failure',
+  INPROGESS: 'inprogress',
+}
+
 class Jobs extends Component {
-  state = {profileData: []}
+  state = {profileData: [], apiStatus: apiStatusConstants.INITIAL}
 
   componentDidMount() {
     this.getProfileData()
   }
 
   getProfileData = async () => {
+    this.setState({apiStatus: apiStatusConstants.INPROGESS})
     const apiUrl = 'https://apis.ccbp.in/profile'
     const jwtToken = Cookies.get('jwt_token')
     const options = {
@@ -61,19 +71,44 @@ class Jobs extends Component {
       },
     }
     const response = await fetch(apiUrl, options)
-    const data = await response.json()
+    if (response.ok === true) {
+      const data = await response.json()
 
-    const updatedProfileData = {
-      profileImageUrl: data.profile_details.profile_image_url,
-      name: data.profile_details.name,
-      shortBio: data.profile_details.short_bio,
+      const updatedProfileData = {
+        profileImageUrl: data.profile_details.profile_image_url,
+        name: data.profile_details.name,
+        shortBio: data.profile_details.short_bio,
+      }
+
+      this.setState({
+        profileData: updatedProfileData,
+        apiStatus: apiStatusConstants.SUCCESS,
+      })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.FAILURE})
     }
-
-    this.setState({profileData: updatedProfileData})
   }
 
+  renderLoader = () => (
+    <div className="loader-container" data-testid="loader">
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="failure-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
+        alt="failure view"
+      />
+      <h1>Oops!Something Went Wrong</h1>
+      <p>We cannot seem to find the page you are looking for.</p>
+      <button type="button">Retry</button>
+    </div>
+  )
+
   render() {
-    const {profileData} = this.state
+    const {profileData, apiStatus} = this.state
 
     const {name, profileImageUrl, shortBio} = profileData
     return (
@@ -127,7 +162,7 @@ class Jobs extends Component {
               ))}
             </ul>
           </div>
-          <JobItemDetails />
+          {apiStatus ? this.renderFailureView() : null}
         </div>
       </>
     )
