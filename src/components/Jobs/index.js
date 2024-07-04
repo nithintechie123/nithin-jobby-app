@@ -1,9 +1,11 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import {BsSearch} from 'react-icons/bs'
 
 import Loader from 'react-loader-spinner'
 
 import Header from '../Header'
+
 import JobItemDetails from '../JobItemDetails'
 
 import './index.css'
@@ -47,14 +49,14 @@ const salaryRangesList = [
 ]
 
 const apiStatusConstants = {
-  INITIAL: 'initial',
-  SUCCESS: 'success',
-  FAILURE: 'failure',
-  INPROGESS: 'inprogress',
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  inprogress: 'INPROGESS',
 }
 
 class Jobs extends Component {
-  state = {profileData: [], apiStatus: apiStatusConstants.INITIAL}
+  state = {profileData: [], apiStatus: apiStatusConstants.initial}
 
   componentDidMount() {
     this.getProfileData()
@@ -82,10 +84,10 @@ class Jobs extends Component {
 
       this.setState({
         profileData: updatedProfileData,
-        apiStatus: apiStatusConstants.SUCCESS,
+        apiStatus: apiStatusConstants.success,
       })
     } else {
-      this.setState({apiStatus: apiStatusConstants.FAILURE})
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
@@ -100,15 +102,32 @@ class Jobs extends Component {
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt="failure view"
+        className="failure-view-image"
       />
-      <h1>Oops!Something Went Wrong</h1>
-      <p>We cannot seem to find the page you are looking for.</p>
-      <button type="button">Retry</button>
+      <h1 className="failure-view-heading">Oops! Something Went Wrong</h1>
+      <p className="failure-view-description">
+        We cannot seem to find the page you are looking for.
+      </p>
+      <button type="button" className="retry-button">
+        Retry
+      </button>
     </div>
   )
 
+  renderContent = () => {
+    const {apiStatus} = this.state
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return <JobItemDetails />
+      case apiStatusConstants.inprogress:
+        return this.renderLoader()
+      default:
+        return this.renderFailureView()
+    }
+  }
+
   render() {
-    const {profileData, apiStatus} = this.state
+    const {profileData} = this.state
 
     const {name, profileImageUrl, shortBio} = profileData
     return (
@@ -162,7 +181,20 @@ class Jobs extends Component {
               ))}
             </ul>
           </div>
-          {apiStatus ? this.renderFailureView() : null}
+          <div className="job-item-details-container">
+            <div className="search-input-container">
+              <input type="search" className="search-input" />
+              <button
+                type="button"
+                data-testid="searchButton"
+                label="true"
+                className="search-button"
+              >
+                <BsSearch className="search-icon" />
+              </button>
+            </div>
+            {this.renderContent()}
+          </div>
         </div>
       </>
     )

@@ -2,8 +2,6 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 
-import {BsSearch} from 'react-icons/bs'
-
 import EachJobItem from '../EachJobItem'
 
 import './index.css'
@@ -46,24 +44,11 @@ class JobItemDetails extends Component {
     const {jobDetailsList} = this.state
     console.log(jobDetailsList)
     return (
-      <div className="job-item-details-container">
-        <div className="search-input-container">
-          <input type="search" className="search-input" />
-          <button
-            type="button"
-            data-testid="searchButton"
-            label="true"
-            className="search-button"
-          >
-            <BsSearch className="search-icon" />
-          </button>
-        </div>
-        <ul className="each-job-container">
-          {jobDetailsList.map(eachJobItem => (
-            <EachJobItem key={eachJobItem.id} eachJobDetails={eachJobItem} />
-          ))}
-        </ul>
-      </div>
+      <ul className="each-job-container">
+        {jobDetailsList.map(eachJobItem => (
+          <EachJobItem key={eachJobItem.id} eachJobDetails={eachJobItem} />
+        ))}
+      </ul>
     )
   }
 }
