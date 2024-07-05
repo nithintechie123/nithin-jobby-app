@@ -15,6 +15,7 @@ class JobItemDetails extends Component {
 
   getJobsData = async () => {
     const jwtToken = Cookies.get('jwt_token')
+
     const apiUrl = 'https://apis.ccbp.in/jobs'
     const options = {
       headers: {
@@ -42,7 +43,7 @@ class JobItemDetails extends Component {
 
   render() {
     const {jobDetailsList} = this.state
-    console.log(jobDetailsList)
+
     return (
       <ul className="each-job-container">
         {jobDetailsList.map(eachJobItem => (

@@ -82,6 +82,9 @@
   outline: none;
   width: 100%;
   border-width: 0px;
+  color: #ffffff;
+  font-family: 'Roboto';
+  padding: 5px;
 }
 .search-button {
   background-color: #272727;

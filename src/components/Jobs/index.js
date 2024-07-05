@@ -56,7 +56,11 @@ const apiStatusConstants = {
 }
 
 class Jobs extends Component {
-  state = {profileData: [], apiStatus: apiStatusConstants.initial}
+  state = {
+    profileData: [],
+    apiStatus: apiStatusConstants.initial,
+    searchInput: '',
+  }
 
   componentDidMount() {
     this.getProfileData()
@@ -91,6 +95,10 @@ class Jobs extends Component {
     }
   }
 
+  onChangeSearchInput = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
   renderLoader = () => (
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
@@ -121,15 +129,17 @@ class Jobs extends Component {
         return <JobItemDetails />
       case apiStatusConstants.inprogress:
         return this.renderLoader()
-      default:
+      case apiStatusConstants.failure:
         return this.renderFailureView()
+      default:
+        return null
     }
   }
 
   render() {
-    const {profileData} = this.state
-
+    const {profileData, searchInput} = this.state
     const {name, profileImageUrl, shortBio} = profileData
+    console.log(searchInput)
     return (
       <>
         <Header />
@@ -183,7 +193,12 @@ class Jobs extends Component {
           </div>
           <div className="job-item-details-container">
             <div className="search-input-container">
-              <input type="search" className="search-input" />
+              <input
+                type="search"
+                className="search-input"
+                value={searchInput}
+                onChange={this.onChangeSearchInput}
+              />
               <button
                 type="button"
                 data-testid="searchButton"
