@@ -52,7 +52,7 @@ const apiStatusConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
   failure: 'FAILURE',
-  inprogress: 'INPROGESS',
+  inProgress: 'INPROGRESS',
 }
 
 class Jobs extends Component {
@@ -66,8 +66,10 @@ class Jobs extends Component {
     this.getProfileData()
   }
 
+  onClickSearchButton = () => {}
+
   getProfileData = async () => {
-    this.setState({apiStatus: apiStatusConstants.INPROGESS})
+    this.setState({apiStatus: apiStatusConstants.inProgress})
     const apiUrl = 'https://apis.ccbp.in/profile'
     const jwtToken = Cookies.get('jwt_token')
     const options = {
@@ -85,7 +87,6 @@ class Jobs extends Component {
         name: data.profile_details.name,
         shortBio: data.profile_details.short_bio,
       }
-
       this.setState({
         profileData: updatedProfileData,
         apiStatus: apiStatusConstants.success,
@@ -122,12 +123,21 @@ class Jobs extends Component {
     </div>
   )
 
+  renderJobItemDetails = () => {
+    const {searchInput} = this.state
+    return (
+      <ul className="each-job-container">
+        <JobItemDetails searchInputValue={searchInput} />
+      </ul>
+    )
+  }
+
   renderContent = () => {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return <JobItemDetails />
-      case apiStatusConstants.inprogress:
+        return this.renderJobItemDetails()
+      case apiStatusConstants.inProgress:
         return this.renderLoader()
       case apiStatusConstants.failure:
         return this.renderFailureView()
@@ -204,6 +214,7 @@ class Jobs extends Component {
                 data-testid="searchButton"
                 label="true"
                 className="search-button"
+                onClick={this.onClickSearchButton}
               >
                 <BsSearch className="search-icon" />
               </button>

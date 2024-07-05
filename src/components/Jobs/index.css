@@ -98,6 +98,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .failure-container {
@@ -129,6 +130,11 @@
   font-weight: 400;
   padding: 10px;
   width: 70px;
+}
+
+.each-job-container {
+  list-style-type: none;
+  padding: 0px;
 }
 
 @media screen and (min-width: 768px) {

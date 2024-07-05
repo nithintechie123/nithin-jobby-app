@@ -15,6 +15,7 @@ const EachJobItem = props => {
     jobDescription,
     employmentType,
   } = eachJobDetails
+
   return (
     <li className="job-item-container">
       <div className="logo-title-rating-container">
