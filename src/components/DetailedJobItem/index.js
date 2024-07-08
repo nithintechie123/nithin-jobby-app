@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import {AiFillStar} from 'react-icons/ai'
 import {MdLocationOn} from 'react-icons/md'
 import {BsFillBriefcaseFill} from 'react-icons/bs'
+import {FiExternalLink} from 'react-icons/fi'
 
 import Header from '../Header'
 
@@ -136,7 +137,13 @@ class DetailedJobItem extends Component {
             <hr className="hr-line" />
             <div className="heading-link-container">
               <h1 className="description-heading">Description</h1>
-              <a href={eachJobDetailsList.companyWebsiteUrl}>Visit</a>
+              <a
+                href={eachJobDetailsList.companyWebsiteUrl}
+                className="visit-link"
+              >
+                Visit
+                <FiExternalLink />
+              </a>
             </div>
 
             <p className="description">{eachJobDetailsList.jobDescription}</p>
