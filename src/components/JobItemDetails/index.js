@@ -25,7 +25,6 @@ class JobItemDetails extends Component {
 
     const response = await fetch(apiUrl, options)
     const data = await response.json()
-    console.log(data)
 
     const updatedData = data.jobs.map(eachJob => ({
       companyLogoUrl: eachJob.company_logo_url,

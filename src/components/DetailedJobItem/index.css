@@ -1,0 +1,22 @@
+.detailed-job-container {
+  background-color: #000000;
+  height: 100vh;
+  background-size: cover;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailed-job-item-container {
+  background-color: #272727;
+  border-radius: 10px;
+  width: 80%;
+  margin-top: 30px;
+  padding: 20px;
+}
+.heading-link-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
