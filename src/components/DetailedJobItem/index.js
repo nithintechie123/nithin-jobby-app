@@ -41,8 +41,6 @@ class DetailedJobItem extends Component {
     const response = await fetch(apiUrl, options)
     const data = await response.json()
 
-    console.log(data)
-
     const updatedJobDetailsList = {
       companyLogoUrl: data.job_details.company_logo_url,
       companyWebsiteUrl: data.job_details.company_website_url,
@@ -81,6 +79,46 @@ class DetailedJobItem extends Component {
       lifeAtCompanyList: updatedLifeAtCompanyList,
       skillsList: updatedSkillsList,
     })
+  }
+
+  renderSkillsContent = () => {
+    const {skillsList} = this.state
+    console.log(skillsList)
+    return (
+      <div className="skill-items-heading-container">
+        <h1 className="skills-heading">Skills</h1>
+        <ul className="skills-container">
+          {skillsList.map(eachSkill => (
+            <li key={eachSkill.name} className="skill-item-container">
+              <img
+                src={eachSkill.imageUrl}
+                alt={eachSkill.name}
+                className="skill-image"
+              />
+              <p className="skill-name">{eachSkill.name}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  renderLifeAtCompanyContent = () => {
+    const {lifeAtCompanyList} = this.state
+    const {description, imageUrl} = lifeAtCompanyList
+    return (
+      <div className="life-at-company-container">
+        <h1 className="life-at-company-heading">Life at Company</h1>
+        <div className="description-image-container">
+          <p className="life-at-company-description">{description}</p>
+          <img
+            src={imageUrl}
+            alt="life at company"
+            className="life-at-company-image"
+          />
+        </div>
+      </div>
+    )
   }
 
   render() {
@@ -145,8 +183,9 @@ class DetailedJobItem extends Component {
                 <FiExternalLink />
               </a>
             </div>
-
             <p className="description">{eachJobDetailsList.jobDescription}</p>
+            {this.renderSkillsContent()}
+            {this.renderLifeAtCompanyContent()}
           </div>
         </div>
       </>
