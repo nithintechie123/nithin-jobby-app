@@ -14,7 +14,7 @@ import './index.css'
 class DetailedJobItem extends Component {
   state = {
     eachJobDetailsList: [],
-    similarJobs: [],
+    similarJobsList: [],
     lifeAtCompanyList: [],
     skillsList: [],
   }
@@ -74,7 +74,7 @@ class DetailedJobItem extends Component {
     }))
 
     this.setState({
-      similarJobs: updatedSimilarJobsList,
+      similarJobsList: updatedSimilarJobsList,
       eachJobDetailsList: updatedJobDetailsList,
       lifeAtCompanyList: updatedLifeAtCompanyList,
       skillsList: updatedSkillsList,
@@ -121,18 +121,63 @@ class DetailedJobItem extends Component {
     )
   }
 
-  render() {
-    const {
-      similarJobs,
-      eachJobDetailsList,
-      lifeAtCompanyList,
-      skillsList,
-    } = this.state
+  renderSimilarJobsContent = () => {
+    const {similarJobsList} = this.state
+    console.log(similarJobsList)
 
-    console.log(similarJobs)
-    console.log(eachJobDetailsList)
-    console.log(lifeAtCompanyList)
-    console.log(skillsList)
+    return (
+      <div className="similar-jobs-container">
+        <h1 className="similar-jobs-heading">Similar Jobs</h1>
+        <ul className="similar-job-items-container">
+          {similarJobsList.map(eachSimilarJob => (
+            <li key={eachSimilarJob.id} className="similar-job-item-container">
+              <div className="sim-job-logo-title-rating-container">
+                <img
+                  src={eachSimilarJob.companyLogoUrl}
+                  alt="company logo"
+                  className="sim-job-company-logo"
+                />
+                <div className="sim-job-title-rating-container">
+                  <h1 className="sim-job-company-name">
+                    {eachSimilarJob.title}
+                  </h1>
+                  <div className="sim-job-rating-container">
+                    <AiFillStar className="sim-job-star-icon" />
+                    <p className="sim-job-rating-number">
+                      {eachSimilarJob.rating}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <h1 className="similar-jobs-desc-heading">Description</h1>
+              <p className="similar-job-description">
+                {eachSimilarJob.jobDescription}
+              </p>
+              <div className="sim-job-location-emp-type-salary-container">
+                <div className="sim-job-location-emp-type-container">
+                  <div className="sim-job-icon-label-container">
+                    <MdLocationOn color="#ffffff" />
+                    <p className="sim-job-location-emp-type-text">
+                      {eachSimilarJob.location}
+                    </p>
+                  </div>
+                  <div className="sim-job-icon-label-container">
+                    <BsFillBriefcaseFill color="#ffffff" />
+                    <p className="sim-job-location-emp-type-text">
+                      {eachSimilarJob.employmentType}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  render() {
+    const {eachJobDetailsList} = this.state
 
     return (
       <>
@@ -187,6 +232,7 @@ class DetailedJobItem extends Component {
             {this.renderSkillsContent()}
             {this.renderLifeAtCompanyContent()}
           </div>
+          {this.renderSimilarJobsContent()}
         </div>
       </>
     )
