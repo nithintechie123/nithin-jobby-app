@@ -64,21 +64,24 @@
 .location-emp-type-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 200px;
 }
 
 .icon-label-container {
   display: flex;
   align-items: center;
+  margin-right: 10px;
 }
 .location-emp-type-text {
   color: #cbd5e1;
   margin-left: 5px;
+  font-family: 'Roboto';
+  font-size: 13px;
+  width: 60px;
 }
 
 .salary-text {
-  color: #cbd5e1;
+  color: #ffffff;
+  font-family: 'Roboto';
 }
 
 .description-heading {

@@ -149,12 +149,29 @@ class Jobs extends Component {
   render() {
     const {profileData, searchInput} = this.state
     const {name, profileImageUrl, shortBio} = profileData
-    console.log(searchInput)
+
     return (
       <>
         <Header />
         <div className="jobs-container">
           <div className="profile-and-filters-container">
+            <div className="sm-search-input-container">
+              <input
+                type="search"
+                className="search-input"
+                value={searchInput}
+                onChange={this.onChangeSearchInput}
+              />
+              <button
+                type="button"
+                data-testid="searchButton"
+                label="true"
+                className="search-button"
+                onClick={this.onClickSearchButton}
+              >
+                <BsSearch className="search-icon" />
+              </button>
+            </div>
             <div className="profile-container">
               <img
                 src={profileImageUrl}
@@ -202,7 +219,7 @@ class Jobs extends Component {
             </ul>
           </div>
           <div className="job-item-details-container">
-            <div className="search-input-container">
+            <div className="lg-search-input-container">
               <input
                 type="search"
                 className="search-input"
