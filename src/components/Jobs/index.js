@@ -153,11 +153,14 @@ class Jobs extends Component {
 
   renderJobItemDetails = () => {
     const {searchInput, jobDetailsList} = this.state
-    console.log(searchInput)
+
+    const searchResult = jobDetailsList.filter(eachJob =>
+      eachJob.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
 
     return (
       <ul className="each-job-container">
-        {jobDetailsList.map(eachJobItem => (
+        {searchResult.map(eachJobItem => (
           <EachJobItem key={eachJobItem.id} eachJobDetails={eachJobItem} />
         ))}
       </ul>
