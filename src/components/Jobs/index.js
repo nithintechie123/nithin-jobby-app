@@ -6,7 +6,7 @@ import Loader from 'react-loader-spinner'
 
 import Header from '../Header'
 
-import JobItemDetails from '../JobItemDetails'
+import EachJobItem from '../EachJobItem'
 
 import './index.css'
 
@@ -60,10 +60,12 @@ class Jobs extends Component {
     profileData: [],
     apiStatus: apiStatusConstants.initial,
     searchInput: '',
+    jobDetailsList: [],
   }
 
   componentDidMount() {
     this.getProfileData()
+    this.getJobsData()
   }
 
   onClickSearchButton = () => {}
@@ -96,6 +98,32 @@ class Jobs extends Component {
     }
   }
 
+  getJobsData = async () => {
+    const jwtToken = Cookies.get('jwt_token')
+    const apiUrl = 'https://apis.ccbp.in/jobs'
+    const options = {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      method: 'GET',
+    }
+
+    const response = await fetch(apiUrl, options)
+    const data = await response.json()
+
+    const updatedData = data.jobs.map(eachJob => ({
+      companyLogoUrl: eachJob.company_logo_url,
+      employmentType: eachJob.employment_type,
+      id: eachJob.id,
+      jobDescription: eachJob.job_description,
+      location: eachJob.location,
+      rating: eachJob.rating,
+      title: eachJob.title,
+      packagePerAnnum: eachJob.package_per_annum,
+    }))
+    this.setState({jobDetailsList: updatedData})
+  }
+
   onChangeSearchInput = event => {
     this.setState({searchInput: event.target.value})
   }
@@ -124,10 +152,14 @@ class Jobs extends Component {
   )
 
   renderJobItemDetails = () => {
-    const {searchInput} = this.state
+    const {searchInput, jobDetailsList} = this.state
+    console.log(searchInput)
+
     return (
       <ul className="each-job-container">
-        <JobItemDetails searchInputValue={searchInput} />
+        {jobDetailsList.map(eachJobItem => (
+          <EachJobItem key={eachJobItem.id} eachJobDetails={eachJobItem} />
+        ))}
       </ul>
     )
   }

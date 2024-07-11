@@ -2,7 +2,8 @@ import {Link, withRouter} from 'react-router-dom'
 
 import Cookies from 'js-cookie'
 
-import {FaHome, FaBriefcase, FaSignOutAlt} from 'react-icons/fa'
+import {FaHome, FaBriefcase} from 'react-icons/fa'
+import {FiLogOut} from 'react-icons/fi'
 
 import './index.css'
 
@@ -49,7 +50,7 @@ const Header = props => {
         <Link to="/jobs">
           <FaBriefcase className="link-icon" />
         </Link>
-        <FaSignOutAlt className="link-icon" onClick={onClickLogoutButton} />
+        <FiLogOut className="link-icon" onClick={onClickLogoutButton} />
       </ul>
     </nav>
   )
