@@ -69,6 +69,11 @@
   font-weight: 400;
 }
 
+.job-item-details-container {
+  display: flex;
+  justify-content: center;
+}
+
 .sm-search-input-container {
   display: flex;
   border: 0.5px solid #cbd5e1;
@@ -168,5 +173,9 @@
   }
   .sm-search-input-container {
     display: none;
+  }
+  .loader-container {
+    align-self: center;
+    margin-top: 150px;
   }
 }

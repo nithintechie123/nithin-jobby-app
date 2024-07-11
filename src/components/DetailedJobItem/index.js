@@ -83,7 +83,7 @@ class DetailedJobItem extends Component {
 
   renderSkillsContent = () => {
     const {skillsList} = this.state
-    console.log(skillsList)
+
     return (
       <div className="skill-items-heading-container">
         <h1 className="skills-heading">Skills</h1>

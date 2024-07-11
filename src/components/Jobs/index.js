@@ -61,6 +61,8 @@ class Jobs extends Component {
     apiStatus: apiStatusConstants.initial,
     searchInput: '',
     jobDetailsList: [],
+    activeEmploymentTypeIdList: [],
+    activeSalaryRangeIdList: [],
   }
 
   componentDidMount() {
