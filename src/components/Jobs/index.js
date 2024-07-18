@@ -8,6 +8,8 @@ import Header from '../Header'
 
 import EachJobItem from '../EachJobItem'
 
+import FiltersGroup from '../FiltersGroup'
+
 import './index.css'
 
 const employmentTypesList = [
@@ -57,12 +59,13 @@ const apiStatusConstants = {
 
 class Jobs extends Component {
   state = {
+    showProfile: false,
     profileData: [],
     apiStatus: apiStatusConstants.initial,
     searchInput: '',
     jobDetailsList: [],
     activeEmploymentTypeIdList: [],
-    activeSalaryRangeIdList: [],
+    activeSalaryRangeId: salaryRangesList[0].salaryRangeId,
   }
 
   componentDidMount() {
@@ -70,10 +73,11 @@ class Jobs extends Component {
     this.getJobsData()
   }
 
-  onClickSearchButton = () => {}
-
   getProfileData = async () => {
-    this.setState({apiStatus: apiStatusConstants.inProgress})
+    this.setState({
+      apiStatus: apiStatusConstants.inProgress,
+      showProfile: false,
+    })
     const apiUrl = 'https://apis.ccbp.in/profile'
     const jwtToken = Cookies.get('jwt_token')
     const options = {
@@ -85,7 +89,6 @@ class Jobs extends Component {
     const response = await fetch(apiUrl, options)
     if (response.ok === true) {
       const data = await response.json()
-
       const updatedProfileData = {
         profileImageUrl: data.profile_details.profile_image_url,
         name: data.profile_details.name,
@@ -94,15 +97,24 @@ class Jobs extends Component {
       this.setState({
         profileData: updatedProfileData,
         apiStatus: apiStatusConstants.success,
+        showProfile: true,
       })
     } else {
-      this.setState({apiStatus: apiStatusConstants.failure})
+      this.setState({apiStatus: apiStatusConstants.failure, showProfile: false})
     }
   }
 
   getJobsData = async () => {
+    const {
+      searchInput,
+      activeEmploymentTypeIdList,
+      activeSalaryRangeId,
+    } = this.state
+
+    const employmentTypeString = activeEmploymentTypeIdList.join(',')
+
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = 'https://apis.ccbp.in/jobs'
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${employmentTypeString}&minimum_package=${activeSalaryRangeId}&search=${searchInput}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -128,6 +140,33 @@ class Jobs extends Component {
 
   onChangeSearchInput = event => {
     this.setState({searchInput: event.target.value})
+  }
+
+  selectedEmploymentType = employmentType => {
+    const {activeEmploymentTypeIdList} = this.state
+    if (activeEmploymentTypeIdList.includes(employmentType)) {
+      const removedEmpElement = activeEmploymentTypeIdList.filter(
+        eachItem => eachItem !== employmentType,
+      )
+      this.setState(
+        {activeEmploymentTypeIdList: removedEmpElement},
+        this.getJobsData,
+      )
+    } else {
+      this.setState(
+        prevState => ({
+          activeEmploymentTypeIdList: [
+            ...prevState.activeEmploymentTypeIdList,
+            employmentType,
+          ],
+        }),
+        this.getJobsData,
+      )
+    }
+  }
+
+  selectedSalaryRange = salaryRange => {
+    this.setState({activeSalaryRangeId: salaryRange}, this.getJobsData)
   }
 
   renderLoader = () => (
@@ -184,7 +223,7 @@ class Jobs extends Component {
   }
 
   render() {
-    const {profileData, searchInput} = this.state
+    const {profileData, searchInput, showProfile} = this.state
     const {name, profileImageUrl, shortBio} = profileData
 
     return (
@@ -209,51 +248,26 @@ class Jobs extends Component {
                 <BsSearch className="search-icon" />
               </button>
             </div>
-            <div className="profile-container">
-              <img
-                src={profileImageUrl}
-                alt="profile"
-                className="profile-image"
-              />
-              <h1 className="profile-name">{name}</h1>
-              <p className="profile-short-bio">{shortBio}</p>
-            </div>
+            {showProfile ? (
+              <div className="profile-container">
+                <img
+                  src={profileImageUrl}
+                  alt="profile"
+                  className="profile-image"
+                />
+                <h1 className="profile-name">{name}</h1>
+                <p className="profile-short-bio">{shortBio}</p>
+              </div>
+            ) : (
+              this.renderLoader()
+            )}
             <hr className="horizontal-line" />
-            <ul className="filters-container">
-              <h1 className="filter-heading">Type of Employment</h1>
-              {employmentTypesList.map(eachEmployeeType => (
-                <li
-                  key={eachEmployeeType.employmentTypeId}
-                  className="each-filter-item"
-                >
-                  <input type="checkbox" id={eachEmployeeType.label} />
-                  <label
-                    htmlFor={eachEmployeeType.label}
-                    className="each-filter-label"
-                  >
-                    {eachEmployeeType.label}
-                  </label>
-                </li>
-              ))}
-            </ul>
-            <hr className="horizontal-line" />
-            <ul className="filters-container">
-              <h1 className="filter-heading">Salary Range</h1>
-              {salaryRangesList.map(eachSalaryRange => (
-                <li
-                  key={eachSalaryRange.salaryRangeId}
-                  className="each-filter-item"
-                >
-                  <input type="checkbox" id={eachSalaryRange.label} />
-                  <label
-                    htmlFor={eachSalaryRange.label}
-                    className="each-filter-label"
-                  >
-                    {eachSalaryRange.label}
-                  </label>
-                </li>
-              ))}
-            </ul>
+            <FiltersGroup
+              employmentTypesList={employmentTypesList}
+              salaryRangesList={salaryRangesList}
+              selectedEmploymentType={this.selectedEmploymentType}
+              selectedSalaryRange={this.selectedSalaryRange}
+            />
           </div>
           <div className="job-item-details-container">
             <div className="lg-search-input-container">
