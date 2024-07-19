@@ -72,7 +72,7 @@ class Login extends Component {
               id="username"
               value={username}
               placeholder="Username"
-              className="input-element"
+              className="login-input-element"
               onChange={this.onChangeUsername}
             />
           </div>
@@ -85,7 +85,7 @@ class Login extends Component {
               id="password"
               value={password}
               placeholder="Password"
-              className="input-element"
+              className="login-input-element"
               onChange={this.onChangePassword}
             />
             {showErrorMsg && <p className="error-msg">*{errorMsg}</p>}
