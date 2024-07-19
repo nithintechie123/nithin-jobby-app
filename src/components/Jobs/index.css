@@ -122,6 +122,24 @@
   padding: 0px;
 }
 
+.retry-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+}
+
+.retry-button {
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-family: 'Roboto';
+  border-radius: 4px;
+  padding: 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 768px) {
   .jobs-container {
     display: flex;

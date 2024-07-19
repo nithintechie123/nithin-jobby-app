@@ -59,7 +59,6 @@ const apiStatusConstants = {
 
 class Jobs extends Component {
   state = {
-    showProfile: false,
     profileData: [],
     apiStatus: apiStatusConstants.initial,
     searchInput: '',
@@ -76,7 +75,6 @@ class Jobs extends Component {
   getProfileData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
-      showProfile: false,
     })
     const apiUrl = 'https://apis.ccbp.in/profile'
     const jwtToken = Cookies.get('jwt_token')
@@ -97,10 +95,9 @@ class Jobs extends Component {
       this.setState({
         profileData: updatedProfileData,
         apiStatus: apiStatusConstants.success,
-        showProfile: true,
       })
     } else {
-      this.setState({apiStatus: apiStatusConstants.failure, showProfile: false})
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
@@ -169,6 +166,10 @@ class Jobs extends Component {
     this.setState({activeSalaryRangeId: salaryRange}, this.getJobsData)
   }
 
+  onClickRetryButton = () => {
+    this.getProfileData()
+  }
+
   renderLoader = () => (
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
@@ -191,6 +192,31 @@ class Jobs extends Component {
       </button>
     </div>
   )
+
+  renderRetryButton = () => (
+    <div className="retry-button-container">
+      <button
+        type="button"
+        className="retry-button"
+        onClick={this.onClickRetryButton}
+      >
+        Retry
+      </button>
+    </div>
+  )
+
+  renderProfilePicture = () => {
+    const {profileData} = this.state
+    const {name, profileImageUrl, shortBio} = profileData
+
+    return (
+      <div className="profile-container">
+        <img src={profileImageUrl} alt="profile" className="profile-image" />
+        <h1 className="profile-name">{name}</h1>
+        <p className="profile-short-bio">{shortBio}</p>
+      </div>
+    )
+  }
 
   renderJobItemDetails = () => {
     const {searchInput, jobDetailsList} = this.state
@@ -222,10 +248,22 @@ class Jobs extends Component {
     }
   }
 
-  render() {
-    const {profileData, searchInput, showProfile} = this.state
-    const {name, profileImageUrl, shortBio} = profileData
+  renderProfileContent = () => {
+    const {apiStatus} = this.state
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderProfilePicture()
+      case apiStatusConstants.inProgress:
+        return this.renderLoader()
+      case apiStatusConstants.failure:
+        return this.renderRetryButton()
+      default:
+        return null
+    }
+  }
 
+  render() {
+    const {searchInput} = this.state
     return (
       <>
         <Header />
@@ -248,19 +286,7 @@ class Jobs extends Component {
                 <BsSearch className="search-icon" />
               </button>
             </div>
-            {showProfile ? (
-              <div className="profile-container">
-                <img
-                  src={profileImageUrl}
-                  alt="profile"
-                  className="profile-image"
-                />
-                <h1 className="profile-name">{name}</h1>
-                <p className="profile-short-bio">{shortBio}</p>
-              </div>
-            ) : (
-              this.renderLoader()
-            )}
+            {this.renderProfileContent()}
             <hr className="horizontal-line" />
             <FiltersGroup
               employmentTypesList={employmentTypesList}
